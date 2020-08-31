@@ -1,9 +1,8 @@
-#include"RWlock_list.h"
+#include"rw_lock_list.h"
 #include<iostream>
 RWlockList::RWlockList() :head(), size(0)
 {
 	head = new node();
-	RWlock::RWlock();
 }
 
 RWlockList::~RWlockList()
@@ -25,7 +24,6 @@ void RWlockList::add(const int val)
 	node* add_candidate = new node(val, NULL);
 	cur->next = add_candidate;
 	size++;
-	//std::cout << "Ð´²Ù×÷" << std::endl;
 	MyRWlock.ReleaseWriteLock();
 }
 
@@ -61,61 +59,21 @@ void RWlockList::print_list()
 	
 }
 
-void RWlockList::find_if()
+bool RWlockList::find_if(int val)
 {
 	MyRWlock.AddReadLock();
 	node* cur = head->next;
-	while (cur != NULL&&cur->next!=NULL)
-	{
+	while (cur != NULL){
+		if(cur->data == val){
+			MyRWlock.ReleaseReadLock();
+			return true;
+		}
 		cur = cur->next;
 	}
 	//std::cout << cur->data << std::endl;
 	MyRWlock.ReleaseReadLock();
+	return false;
 }
 
-void RWlockList::test_read1()
-{
-	MyRWlock.AddReadLock();
-	while (1)
-	{
-		node* cur = head->next;
-		while (cur != NULL)
-		{
-			cur = cur->next;
-		}
-		std::cout << "read1" << std::endl;
-	}	
-	//MyRWlock.ReleaseReadLock();
-}
 
-void RWlockList::test_read2()
-{
-	MyRWlock.AddReadLock();
-	while (1)
-	{
-		node* cur = head->next;
-		while (cur != NULL)
-		{
-			cur = cur->next;
-		}
-		std::cout << "read2" << std::endl;
-	}
-	//MyRWlock.ReleaseReadLock();
-}
-
-void RWlockList::test_write1()
-{
-	MyRWlock.AddWriteLock();
-	while (1)
-		std::cout << "write1" << std::endl;
-	MyRWlock.ReleaseWriteLock();
-}
-
-void RWlockList::test_write2()
-{
-	MyRWlock.AddWriteLock();
-	while (1)
-		std::cout << "write2" << std::endl;
-	MyRWlock.ReleaseWriteLock();
-}
 

@@ -58,38 +58,20 @@ void CoarseLockList::print_list()
 	pthread_mutex_unlock(&coarseLock);
 }
 
-void CoarseLockList::find_if()
+bool CoarseLockList::find_if(int val)
 {
 	pthread_mutex_lock(&coarseLock);
 	node* cur = head->next;
-	while (cur != NULL && cur->next != NULL)
+	while (cur != NULL){
+		if(cur->data == val){
+			pthread_mutex_unlock(&coarseLock);
+			return true;
+		}
 		cur = cur->next;
+	}
 	//std::cout << cur->data << std::endl;
 	pthread_mutex_unlock(&coarseLock);
-}
-
-void CoarseLockList::test_read1()
-{
-	pthread_mutex_lock(&coarseLock);
-	while (1)
-		std::cout << "read1" << std::endl;
-	//MyRWlock.ReleaseReadLock();
-}
-
-void CoarseLockList::test_read2()
-{
-	pthread_mutex_lock(&coarseLock);
-	while (1)
-		std::cout << "read2" << std::endl;
-	//MyRWlock.ReleaseReadLock();
-}
-
-void CoarseLockList::test_write()
-{
-	pthread_mutex_lock(&coarseLock);
-	while (1)
-		std::cout << "write" << std::endl;
-	pthread_mutex_unlock(&coarseLock);
+	return false;
 }
 
 

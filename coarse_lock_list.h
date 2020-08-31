@@ -8,16 +8,17 @@ class CoarseLockList {
 public:
 	CoarseLockList();
 	~CoarseLockList();
+	// 添加一个节点
+	void add(const int val);
 
-	void add(const int val);//��ĩβ����Ԫ��
-	void remove();//��ĩβ�Ƴ��ڵ�
-	//bool find_if(const int location);//
+	// 移除一个节点
+	void remove();
+
+	// 打印链表
 	void print_list();
-	void find_if();
-	void test_read1();
-	void test_read2();
-	void test_write();
 
+	// 查询一个值是否在链表中
+	bool find_if(int val);
 private:
 	node* head;
 	pthread_mutex_t coarseLock;

@@ -1,6 +1,6 @@
 #include<pthread.h>
 #include<iostream>
-#include"RWlock.h"
+#include"rw_lock.h"
 RWlock::RWlock()
 	: write(0),read(0)
 {
